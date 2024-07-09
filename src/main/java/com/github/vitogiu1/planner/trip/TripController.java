@@ -78,6 +78,7 @@ public class TripController {
         return ResponseEntity.notFound().build();
     };
 
+    // POST Method: Invite Participants
     @PostMapping("/{id}/invite")
     public ResponseEntity<ParticipantCreateResponse> inviteParticipant(@PathVariable UUID id, @RequestBody ParticipantRequestPayload payload) {
         Optional<Trip> trip = this.repository.findById(id);
@@ -98,6 +99,7 @@ public class TripController {
         return ResponseEntity.notFound().build();
     };
 
+    //GET Method: Participants Information
     @GetMapping("/{id}/participants")
     public ResponseEntity<List<ParticipantData>> listParticipants(@PathVariable UUID id){
         List<ParticipantData> participnatList = this.participantService.getAllParticipantsFromEvent(id);
