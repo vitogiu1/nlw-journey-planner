@@ -131,6 +131,7 @@ public class TripController {
     //Activities
 
 
+    //POST Method: Create a activity for trip
     @PostMapping("/{id}/activities/create")
     public ResponseEntity<ActivityResponse> createActivity(@PathVariable UUID id, @RequestBody ActivityRequestPayload payload) {
         Optional<Trip> trip = this.repository.findById(id);
@@ -146,6 +147,7 @@ public class TripController {
         return ResponseEntity.notFound().build();
     };
 
+    //GET Method: List all activities from trip
     @GetMapping("/{id}/activities")
     public ResponseEntity<List<ActivityData>> listActivities(@PathVariable UUID id){
         List<ActivityData> activitiesList = this.activityService.getAllActivitiesFromEvent(id);
@@ -156,7 +158,7 @@ public class TripController {
 
     //Links
 
-
+    //POST Method: Create an important link
     @PostMapping("/{id}/links/create")
     public ResponseEntity<LinkResponse> createLink(@PathVariable UUID id, @RequestBody LinkRequestPayload payload) {
         Optional<Trip> trip = this.repository.findById(id);
@@ -172,6 +174,7 @@ public class TripController {
         return ResponseEntity.notFound().build();
     };
 
+    //GET Method: List all important links from trip
     @GetMapping("/{id}/links")
     public ResponseEntity<List<LinkData>> listLinks(@PathVariable UUID id){
         List<LinkData> linksList = this.linkService.getAllLinksFromEvent(id);
