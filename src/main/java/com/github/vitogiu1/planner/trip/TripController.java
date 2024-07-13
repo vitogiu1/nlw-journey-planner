@@ -20,6 +20,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/trips")
 public class TripController {
 
@@ -43,6 +44,8 @@ public class TripController {
     public ResponseEntity<TripResponse> createTrip(@RequestBody TripRequestPayload payload) {
         Trip newTrip = new Trip(payload);
 
+        System.out.print(payload);
+
         this.repository.save(newTrip); //Save on H2
         this.participantService.registerParticipantsToEvent(payload.emails_to_invite(), newTrip);
 
@@ -51,8 +54,8 @@ public class TripController {
 
     // GET Method: Get Trip Info
     @GetMapping("/{id}")
-    public ResponseEntity<Trip> getTripDetails(@PathVariable UUID id){
-        Optional<Trip> trip = this.repository.findById(id);
+    public ResponseEntity<TripData> getTripDetails(@PathVariable UUID id){
+            Optional<TripData> trip = this.repository.findById(id).map(tripInfo -> new TripData(tripInfo.getId(), tripInfo.getDestination(), tripInfo.getStartsAt(), tripInfo.getEndsAt(), tripInfo.getIsConfirmed(), tripInfo.getOwnerName(), tripInfo.getOwnerEmail()));
 
         return trip.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     };
